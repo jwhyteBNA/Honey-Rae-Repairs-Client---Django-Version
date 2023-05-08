@@ -41,6 +41,15 @@ export const Ticket = () => {
     updateTicket(updatedTicket).then(() => fetchTicket())
   }
 
+  const markAsDone = () => {
+    const updatedDoneDate = {
+      ...ticket,
+      employee: ticket.employee.id,
+      date_completed: new Date().toISOString().slice(0, 10)
+    }
+    updateTicket(updatedDoneDate).then(() => navigate("/"))
+  }
+
   const ticketStatus = () => {
     if (ticket.date_completed === null) {
       if (ticket.employee) {
@@ -90,7 +99,8 @@ export const Ticket = () => {
           </div>
           {
             isStaff()
-              ? <></>
+              ?
+              (ticket.date_completed ? ("") : <button onClick={markAsDone}>Mark Done</button>)
               : <button onClick={deleteTicketEvent}>Delete</button>
           }
         </footer>
